@@ -85,4 +85,4 @@ app.get('/api/animals', (req, res) => {
 // this tells the dev that its running on the port number
 app.listen(3001, () => {
     console.log(`API server now on port 3001!`)
-})
+});
