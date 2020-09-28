@@ -2,6 +2,8 @@ const { query } = require('express');
 // Documentation to help write out an express server -> https://expressjs.com/en/4x/api.html
 const express = require('express');
 
+const PORT = process.env.PORT || 3001;
+
 // To instantiate the server, this is all it takes to start the server
 const app = express();
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +85,6 @@ app.get('/api/animals', (req, res) => {
 });
 
 // this tells the dev that its running on the port number
-app.listen(3001, () => {
-    console.log(`API server now on port 3001!`)
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
 });
