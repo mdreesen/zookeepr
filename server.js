@@ -73,6 +73,11 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
 }
 
+function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+}
+
 app.get('/api/animals', (req, res) => {
     // making animals a variable
     let results = animals;
@@ -82,6 +87,12 @@ app.get('/api/animals', (req, res) => {
     // takes the query param and turns it into JSON
     // console.log(req.query)
     res.json(results);
+});
+
+// This route only gets one animal because of the unique ID
+app.get('api/animals:id', (req, res) => {
+    const result = findById(req.params.id, animals)
+    result.json(result);
 });
 
 // this tells the dev that its running on the port number
