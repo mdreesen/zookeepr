@@ -1,4 +1,3 @@
-const { query } = require('express');
 // Documentation to help write out an express server -> https://expressjs.com/en/4x/api.html
 const express = require('express');
 
@@ -73,6 +72,16 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
 }
 
+// We are passing req.params.id into this function
+// this block is getting just a single ID back (unique ID), that is why we dont need other code
+function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+}
+
+
+// -=- we have to pay attention to the order of the routes -=-
+// the param route must come after th other get route
 app.get('/api/animals', (req, res) => {
     // making animals a variable
     let results = animals;
@@ -82,6 +91,15 @@ app.get('/api/animals', (req, res) => {
     // takes the query param and turns it into JSON
     // console.log(req.query)
     res.json(results);
+});
+
+app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+        res.json(result);
+    } else {
+        res.send(404);
+    }
 });
 
 // this tells the dev that its running on the port number
