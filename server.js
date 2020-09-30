@@ -1,4 +1,7 @@
 // Documentation to help write out an express server -> https://expressjs.com/en/4x/api.html
+// -=- how to validate data, you can use 3rd party's to do so
+// - express validator can validate data
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -7,6 +10,11 @@ const PORT = process.env.PORT || 3001;
 
 // To instantiate the server, this is all it takes to start the server
 const app = express();
+
+// this is added middleware to our server and used the express.status() method
+// we provide a file path to a location in our application (the public folder) and instruct the server to make these files static resources
+// this means that all of our front end code can now be accessed without having a specific server endpoint created for it
+app.use(express.static('public'));
 
 // -=- NEED TO PARSE THE DATA FOR POST CALLS -=-
 // parse incoming string or array data
@@ -179,9 +187,22 @@ app.post('/api/animals', (req, res) => {
     }
 });
 
-// -=- how to validate data, you can use 3rd party's to do so
-// - express validator can validate data
+// the "/" brings us to the root route of the server.
+// This is the route used to create a homepage for a server
+app.get('/', (req, res) => {
+    // res.sendFile() - this tells them where to find the file we want our server to read and send back to the client
+    /* we are using the "path" to ensure that were finding the correct location for the HTML code we want to display in the browser
+    This way, we know it will work in any server environment */
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
 
 // this tells the dev that its running on the port number
 app.listen(PORT, () => {

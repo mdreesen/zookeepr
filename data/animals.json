@@ -135,6 +135,26 @@
         "hungry"
       ],
       "id": "13"
+    },
+    {
+      "name": "Larry",
+      "species": "Lemour",
+      "diet": "herbivore",
+      "personalityTraits": [],
+      "id": "14"
+    },
+    {
+      "name": "Greg",
+      "species": "Lion",
+      "diet": "carnivore",
+      "personalityTraits": [
+        "hungry",
+        "zany",
+        "anxious",
+        "loving",
+        "goofy"
+      ],
+      "id": "15"
     }
   ]
 }

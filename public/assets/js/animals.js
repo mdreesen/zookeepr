@@ -2,10 +2,10 @@ const $animalForm = document.querySelector('#animals-form');
 const $displayArea = document.querySelector('#display-area');
 
 const printResults = resultArr => {
-  console.log(resultArr);
+        console.log(resultArr);
 
-  const animalHTML = resultArr.map(({ id, name, personalityTraits, species, diet }) => {
-    return `
+        const animalHTML = resultArr.map(({ id, name, personalityTraits, species, diet }) => {
+                    return `
   <div class="col-12 col-md-5 mb-3">
     <div class="card p-3" data-id=${id}>
       <h4 class="text-primary">${name}</h4>
@@ -30,6 +30,23 @@ const getAnimals = (formData = {}) => {
   });
 
   console.log(queryUrl);
+
+  // fetching the queryUrl
+  fetch(queryUrl)
+  // have to check to see if the ok property in the reponse is true or false
+  // this is the part that will check for any HTTP status code that signifies the error.
+  // if there is an error, we just alert the user that there's something wrong
+  // if everything is ok, we still have to use the .json() method to parse our repose into readable JSON format
+  .then(Response => {
+    if (!Response.ok) {
+      return alert('Error' + Response.statusText);
+    }
+    return Response.json();
+  })
+  .then(animalData => {
+    console.log(animalData);
+    printResults(animalData)
+  });
 
 };
 
