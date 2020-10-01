@@ -1,10 +1,11 @@
 const $displayArea = document.querySelector('#display-area');
+const $zookeeperForm = document.querySelector("#zookeeper-form");
 
 const printResults = resultArr => {
-  console.log(resultArr);
+    console.log(resultArr);
 
-  const animalHTML = resultArr.map(({ id, name, age, favoriteAnimal }) => {
-    return `
+    const animalHTML = resultArr.map(({ id, name, age, favoriteAnimal }) => {
+        return `
   <div class="col-12 col-md-5 mb-3">
     <div class="card p-3" data-id=${id}>
       <h4 class="text-primary">${name}</h4>
@@ -15,23 +16,51 @@ const printResults = resultArr => {
     </div>
   </div>
     `;
-  });
+    });
 
-  $displayArea.innerHTML = animalHTML.join('');
+    $displayArea.innerHTML = animalHTML.join('');
 };
 
-const getZookeepers = () => {
-  fetch('/api/zookeepers')
-    .then(response => {
-      if (!response.ok) {
-        return alert('Error: ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(zookeeperArr => {
-      console.log(zookeeperArr);
-      printResults(zookeeperArr);
+const getZookeepers = (formData = {}) => {
+    let queryUrl = '/api/zookeepers?';
+
+    Object.entries(formData).forEach(([key, value]) => {
+        queryUrl += `${key}=${value}&`;
     });
+
+    fetch(queryUrl)
+        .then(response => {
+            if (!response.ok) {
+                return alert(`Error: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(zookeeperArr => {
+            console.log(zookeeperArr);
+            printResults(zookeeperArr);
+        });
+};
+
+/*This is good, but we still need to add a function to handle the form data, 
+then pass it as an argument to getZookeepers(). 
+Create a function called handleGetZookeepersSubmit(). 
+This function should take the values from the form in zookeepers.html 
+and pass them as an object to getZookeepers().*/
+function handleZookeepersSubmit() {
+    event.preventDefault;
+
+    const nameHTML = $zookeeperForm.querySelector('[name="name"]');
+    const name = nameHTML.value;
+
+    const ageHTML = $zookeeperForm.querySelector('[name="age"]');
+    const age = ageHTML.value;
+
+    const zookeeperObject = { name, age };
+
+    $zookeeperForm.addEventListener('submit', handleGetZookeepersSubmit);
+
+
+    getZookeepers(zookeeperObject);
 };
 
 getZookeepers();
